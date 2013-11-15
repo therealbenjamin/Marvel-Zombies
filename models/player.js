@@ -5,13 +5,12 @@ var Player = mongoose.Schema({
   players             : [{type: mongoose.Schema.Types.ObjectId, ref: 'Player'}],
   username            : String,
   health              : String,
-  positionX           : Number,
-  positionY           : Number,
+  x                   : Number,
+  y                   : Number,
   projectileLength    : Number,
   projectileStrength  : Number,
   meleeStrength       : Number,
-  isZombie            : Boolean,
-  createdAt           : {type: Date, default: Date.now}
+  isZombie            : Boolean
 });
 
 mongoose.model('Player', Player);
