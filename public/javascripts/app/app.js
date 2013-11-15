@@ -10,6 +10,7 @@ function initialize(){
   initializeSocketIO();
   $('#startGame').on('click', clickStartGame);
   $('#start').on('click', clickStart);
+  $('body').on('keyup', keyupMove);
 }
 
 function initializeSocketIO(){
@@ -96,28 +97,31 @@ function clickStart() {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 
-// function keyupMove(e){
-//   var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.which;});
+function keyupMove(e){
+  console.log(e.keyCode);
+  // var isProjectile = _.any([65, 83, 68, 87], function(i){return i === e.which;});
+  // var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.which;});
 
-//   if(isArrow){
+  // if(isArrow){
 
-//     switch(e.which){
-//       case 38:
-//         p.y--;
-//         break;
-//       case 40:
-//         p.y++;
-//         break;
-//       case 37:
-//         p.x--;
-//         break;
-//       case 39:
-//         p.x++;
-//         break;
-//     }
-//     socket.emit('playermoved', {game:game, player:player, x:p.x, y:p.y});
-//   }
-// }
+  //   switch(e.which){
+  //     case 38:
+  //       p.y--;
+  //       break;
+  //     case 40:
+  //       p.y++;
+  //       break;
+  //     case 37:
+  //       p.x--;
+  //       break;
+  //     case 39:
+  //       p.x++;
+  //       break;
+  //   }
+
+  //   socket.emit('playermoved', {game:game, player:player, x:p.x, y:p.y});
+  // }
+}
 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //

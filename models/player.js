@@ -14,3 +14,10 @@ var Player = mongoose.Schema({
 });
 
 mongoose.model('Player', Player);
+
+Player.pre('save', function(next){
+  if(this.health < 0){
+    this.isZombie = true;
+  }
+  next();
+});
