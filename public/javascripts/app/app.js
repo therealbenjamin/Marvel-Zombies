@@ -3,7 +3,8 @@
 $(document).ready(initialize);
 
 var socket;
-// var players = [];
+var player;
+var players = [];
 function initialize(){
   $(document).foundation();
   initializeSocketIO();
@@ -43,17 +44,6 @@ function socketConnected(data){
 // // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-
-// function clickStartGame(){
-//   game = getValue('#game');
-//   player = getValue('#character');
-//   $('#startGame').fadeOut('slow').addClass('hidden');
-//   $('#startLogo').fadeOut('slow').addClass('hidden');
-//   console.log(game);
-//   console.log(player);
-  // $('table#game').removeClass('hidden');
-  // socket.emit('startgame', {game:game, player:player});
-// }
 
 // // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
@@ -134,33 +124,47 @@ function clickStart() {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
+function playerJoined(data){
+  players = data.players;
+  var x, y, $td, $player, $outerHealth;
+  for(var i = 0; i < data.players.length; i++) {
+    if(data.players[i].health > 0) {
+      x = data.players[i].x;
+      y = data.players[i].y;
+      $td = $('td[data-x=' + x + '][data-y=' + y + ']');
+      $player = $('<div>').addClass('player');
+      $player.text(data.players[i].name);
 
+      switch(players[i].character){
+        case 'Cap':
+          $player.append($('<img>').attr('src','../images/cap.png'));
+          break;
+        case 'Thor':
+          $player.append($('<img>').attr('src','../images/thor.png'));
+          break;
+        case 'Ironman':
+          $player.append($('<img>').attr('src','../images/ironman.png'));
+          break;
+        case 'Hulk':
+          $player.append($('<img>').attr('src','../images/hulk.png'));
+          break;
+      }
 
-// function playerJoined(data){
-//   players = data.players;
-//   var x, y, $td, $player, $outerHealth;
-//   for(var i = 0; i < data.players.length; i++) {
-//     if(data.players[i].health > 0) {
-//       x = data.players[i].x;
-//       y = data.players[i].y;
-//       $td = $('td[data-x=' + x + '][data-y=' + y + ']');
-//       $player = $('<div>').addClass('player');
-//       $player.text(data.players[i].name);
-//       $player.append($('<img>').attr('src','../images/player.png').addClass('icon'));
-//       $outerHealth = $('<div>').addClass('outerHealth');
-//       $outerHealth.append($('<div>').addClass('innerHealth').css('width', data.players[i].health + '%'));
-//       $player.append($outerHealth).appendTo($td);
-//     } else{
-//       x = data.players[i].x;
-//       y = data.players[i].y;
-//       $td = $('td[data-x=' + x + '][data-y=' + y + ']');
-//       $player = $('<div>').addClass('player');
-//       $player.css('background-color', 'grey');
-//       $player.text(data.players[i].name);
-//       $player.append($('<img>').attr('src','../images/zombie.png').addClass('icon'));
-//       $outerHealth = $('<div>').addClass('outerHealth');
-//       $outerHealth.append($('<div>').addClass('innerHealth').css('width', data.players[i].health + '%'));
-//       $player.append($outerHealth).appendTo($td);
-//     }
-//   }
-// }
+      $outerHealth = $('<div>').addClass('outerHealth');
+      $outerHealth.append($('<div>').addClass('innerHealth').css('width', data.players[i].health + '%'));
+      $player.append($outerHealth).appendTo($td);
+    }
+    // else{
+    //   x = data.players[i].x;
+    //   y = data.players[i].y;
+    //   $td = $('td[data-x=' + x + '][data-y=' + y + ']');
+    //   $player = $('<div>').addClass('player');
+    //   $player.css('background-color', 'grey');
+    //   $player.text(data.players[i].name);
+    //   $player.append($('<img>').attr('src','../images/zombie.png').addClass('icon'));
+    //   $outerHealth = $('<div>').addClass('outerHealth');
+    //   $outerHealth.append($('<div>').addClass('innerHealth').css('width', data.players[i].health + '%'));
+    //   $player.append($outerHealth).appendTo($td);
+    // }
+  }
+}
