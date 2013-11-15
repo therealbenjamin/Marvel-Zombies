@@ -1,4 +1,5 @@
 extends ../template/layout
+include ../mixins/form-helper.jade
 
 block content
   - var numbers = [0,1,2,3,4,5,6,7,8,9];
@@ -8,6 +9,26 @@ block content
   .row
     .small-12.columns
       button#startGame.button.small-12.radius.expand Start Game 
+
+
+  .row#form.hidden
+      .small-2.columns
+        select#selectHero(name='hero') Select Character
+          option(value='Captain America') Captain America
+          option(value='The Incredible Hulk') The Hulk
+          option(value='Thor') Thor
+          option(value='Iron Man') Iron Man
+      .small-2.columns
+        select#selectStage(name='game')  Select Stage
+          option(value='Desert') Desert
+          option(value='Jungle')  Jungle
+          option(value='Tundra') Tundra
+          option(value='City')  City
+      .small-6.columns
+        mixin field#player(3, 'text', 'player', null ,null, null, true)
+      .small-2.columns
+        button#start.small.expand Start
+
   .row
     .small-12.columns
       table#game.hidden
