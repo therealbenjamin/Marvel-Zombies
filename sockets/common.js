@@ -191,7 +191,7 @@ function emitPlayers(sockets, game){
     for(var i = 0; i < players.length; i++){
       if(sockets[players[i].socketId]){
         console.log('emitting!!!!!');
-        sockets[players[i].socketId].emit('reset', {game:game});
+        sockets[players[i].socketId].emit('updateBoard', {game:game});
       }
     }
   });
