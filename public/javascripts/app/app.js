@@ -42,6 +42,8 @@ function socketPlayerJoined(data){
 function clickStartGame(){
   game = getValue('#game');
   player = getValue('#character');
+  $('#startGame').fadeOut('slow').addClass('hidden');
+  $('#startLogo').fadeOut('slow').addClass('hidden');
   $('table#game').removeClass('hidden');
   socket.emit('startgame', {game:game, player:player});
 }
