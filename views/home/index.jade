@@ -1,6 +1,21 @@
 extends ../template/layout
 
 block content
+  - var numbers = [0,1,2,3,4,5,6,7,8,9];
   .row
     .small-12.columns
-      h1 Home Page
+      img#startLogo(src="../images/logo.png")
+  .row
+    .small-12.columns
+      button#startGame.button.small-12.radius.expand Start Game 
+  .row
+    .small-12.columns
+      table#game.hidden
+        tbody
+          each y in numbers
+            tr
+              each x in numbers
+                td.cell(data-x=x, data-y=y, data-name)
+                  .health
+                  .player
+

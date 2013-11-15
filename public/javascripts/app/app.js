@@ -7,6 +7,7 @@ var socket;
 function initialize(){
   $(document).foundation();
   initializeSocketIO();
+  $('#startGame').on('click', clickStartGame);
 }
 
 function initializeSocketIO(){
@@ -19,4 +20,10 @@ function initializeSocketIO(){
 
 function socketConnected(data){
   console.log(data);
+}
+
+function clickStartGame(){
+	$('#startGame').fadeOut('slow').addClass('hidden');
+	$('#startLogo').fadeOut('slow').addClass('hidden');
+	$('table#game').removeClass('hidden');
 }
