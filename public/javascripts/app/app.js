@@ -1,9 +1,9 @@
-/* global document, window, io */
+/* global document, window, io, getValue */
 
 $(document).ready(initialize);
 
 var socket;
-
+// var players = [];
 function initialize(){
   $(document).foundation();
   initializeSocketIO();
@@ -30,10 +30,10 @@ function socketConnected(data){
   console.log(data);
 }
 
-function socketPlayerAdded(data){
-  players = data.players;
-  htmlDrawBoard();
-}
+// function socketPlayerAdded(data){
+//   players = data.players;
+//   htmlDrawBoard();
+// }
 // function socketPlayerJoined(data){
 //   players = data.players;
 //   htmlDrawBoard();
@@ -48,8 +48,10 @@ function socketPlayerAdded(data){
 //   player = getValue('#character');
 //   $('#startGame').fadeOut('slow').addClass('hidden');
 //   $('#startLogo').fadeOut('slow').addClass('hidden');
-//   // $('table#game').removeClass('hidden');
-//   socket.emit('startgame', {game:game, player:player});
+//   console.log(game);
+//   console.log(player);
+  // $('table#game').removeClass('hidden');
+  // socket.emit('startgame', {game:game, player:player});
 // }
 
 // // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
@@ -95,10 +97,9 @@ function clickStartGame() {
 function clickStart() {
   var hero = $('#selectHero').val();
   var name = $('#selectStage').val();
-  var player = getValue('#player');
-  socket.emit('clickStart', {hero:hero, name:name, player:player});
+  var player = getValue('#player input');
+  socket.emit('clickStart', {character:hero, name:name, username:player});
 }
-
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
@@ -131,6 +132,7 @@ function clickStart() {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
 
 
 // function playerJoined(data){
