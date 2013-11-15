@@ -9,7 +9,7 @@ exports.connection = function(socket){
   socket.emit('connected', {status: 'connected'});
   socket.on('disconnect', socketDisconnect);
   socket.on('clickStart', socketCreatePlayer);
-  socket.on('playerMoved', socketPlayerMoved);
+  socket.on('playermoved', socketPlayerMoved);
   socket.on('playerprojectile', socketPlayerProjectile);
 
 };
@@ -146,11 +146,6 @@ function findOrCreateGame(name, player){
   });
 }
 
-function socketPlayerMoved(data){
-  var game = data.game
-  Game.findOne({game:game})
-}
-
 function socketPlayerProjectile(data){
   // data dependicies
   // data.name = game name
@@ -219,3 +214,29 @@ function emitPlayers(sockets, game){
   });
 }
 
+function socketPlayerMoved(data){
+  console.log(data);
+  Game.findOne({name:data.name}).populate('players').exec(function(err, game){
+  //   // Lack of internet, can't recall better way to do this.
+  //   // Needs refactoring fo sho
+    console.log(game);
+    var player = __.where(game.players, {name:data.player});
+    player = player[0];
+
+    Player.findById(player.id, function(err, player){
+      player.x = data.x;
+      player.y = data.y;
+      game.save(function(err, game){});
+      // checkForCollision(data.x, data.y, player.name);
+      // console.log('this should be correct player');
+      // console.log(player);
+      Game.find({name: game.name}).populate('players').exec(function(err, game){
+      })
+      player.save(function(err, savedPlayer){
+        // console.log('this is the actually saved player');
+        // console.log(savedPlayer);
+        emitPlayers(io.sockets, game)
+      });
+    });
+  });
+}

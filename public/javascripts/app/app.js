@@ -1,7 +1,7 @@
 /* global document, window, io, getValue */
 
 $(document).ready(initialize);
-
+var name;
 var socket;
 var username;
 var player;
@@ -100,26 +100,39 @@ function clickStart() {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 function keyupMove(e){
+  var x = player.x;
+  var y = player.y;
   console.log(e.keyCode);
   var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.which;});
 
   if(isArrow){
 
     switch(e.which){
-      case 38:
-        player.y--;
-        break;
-      case 40:
-        player.y++;
-        break;
-      case 37:
-        player.x--;
-        break;
-      case 39:
-        player.x++;
-        break;
+    case 37:
+      //left
+      if (x>0) {
+        x--;
+      }
+      break;
+    case 38:
+      //up
+      if (y>0) {
+        y--;
+      }
+      break;
+    case 39:
+      if (x<10) {
+        x++;
+      }
+      break;
+    case 40:
+      if (y<10) {
+        y++;
+      }
+      //down
+      break;
     }
-    socket.emit('playermoved', {game:game, player:player, x:player.x, y:player.y});
+    socket.emit('playermoved', {x:player.x, y:player.y, name:name});
   }
 
   var isProjectile = _.any([65, 83, 68, 87], function(i){return i === e.keyCode;});
@@ -142,7 +155,7 @@ function keyupMove(e){
       case 87:
         data.direction = "up";
     }
-  socket.emit('playerprojectile', data);
+    socket.emit('playerprojectile', data);
   }
 }
 
@@ -156,6 +169,7 @@ function keyupMove(e){
 
 
 function socketPlayerJoined(data){
+  name = data.game.name;
   $('table#game').removeClass('hidden');
   players = data.game.players;
   findUser(players);
@@ -169,7 +183,7 @@ function socketPlayerJoined(data){
       $player.text(data.game.players[i].name);
 
       switch(players[i].character){
-        case 'Cap':
+        case 'Captain':
           $player.append($('<img>').attr('src','../images/capf.png'));
           break;
         case 'Thor':
