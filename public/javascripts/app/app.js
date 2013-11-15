@@ -124,7 +124,7 @@ function keyupMove(e){
   if (isProjectile) {
     var data = {};
     data.x = player.x;
-    data.y = player.y
+    data.y = player.y;
     data.projectileStrength = player.projectileStrength;
     data.projectileLength = player.projectileLength;
     switch(e.keyCode) {
