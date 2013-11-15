@@ -63,24 +63,7 @@ function htmlSelectStage(name){
   } else {
     $('table#game').addClass('city');
   }
-
-
-
-  // switch(){
-  //   case 'Desert':
-  //     $('table#game').addClass('desert');
-  //     break;
-  //   case 'Jungle':
-  //     $('table#game').addClass('jungle');
-  //     break;
-  //   case 'Tundra':
-  //     $('table#game').addClass('tundra');
-  //     break;
-  //   case 'City':
-  //     $('table#game').addClass('city');
-  //     break;
-  //   }
-  }
+}
 
 // function htmlDrawBoard(){
 //   htmlResetBoard();
