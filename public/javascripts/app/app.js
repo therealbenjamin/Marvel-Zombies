@@ -3,7 +3,8 @@
 $(document).ready(initialize);
 
 var socket;
-// var players = [];
+var player;
+var players = [];
 function initialize(){
   $(document).foundation();
   initializeSocketIO();
@@ -17,7 +18,7 @@ function initializeSocketIO(){
 
   socket = io.connect(url);
   socket.on('connected', socketConnected);
-  socket.on('reset', socketConnected);
+  socket.on('updateBoard', socketConnected);
   // socket.on('playeradded', socketPlayerAdded);
 }
 
@@ -123,9 +124,6 @@ function clickStart() {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-
-
-
 function playerJoined(data){
   players = data.players;
   var x, y, $td, $player, $outerHealth;
@@ -139,16 +137,16 @@ function playerJoined(data){
 
       switch(players[i].character){
         case 'Cap':
-          $player.append($('<img>').attr('src','../images/cap.png'));    
+          $player.append($('<img>').attr('src','../images/cap.png'));
           break;
         case 'Thor':
-          $player.append($('<img>').attr('src','../images/thor.png'));    
+          $player.append($('<img>').attr('src','../images/thor.png'));
           break;
         case 'Ironman':
-          $player.append($('<img>').attr('src','../images/ironman.png'));    
+          $player.append($('<img>').attr('src','../images/ironman.png'));
           break;
         case 'Hulk':
-          $player.append($('<img>').attr('src','../images/hulk.png'));    
+          $player.append($('<img>').attr('src','../images/hulk.png'));
           break;
       }
 
@@ -170,9 +168,3 @@ function playerJoined(data){
     // }
   }
 }
-
-
-function test(data){
-  console.log(data);
-}
-

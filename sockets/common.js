@@ -180,7 +180,35 @@ function checkForHits(game, players, direction, projectileLength, projectileStre
           players[i].health -= projectileStrength;
         }
       }
+      break;
+    case ('right'):
+      for(var i = 0; i < players.length; i++){
+        if (players[i].x > x && players[i].x <= x + projectileLength) {
+          players[i].health -= projectileStrength;
+        }
+      }
+      break;
+
+    case ('up'):
+      for(var i = 0; i < players.length; i++){
+        if (players[i].y < y && players[i].y >= y - projectileLength) {
+          players[i].health -= projectileStrength;
+        }
+      }
+      break;
+
+    case('down'):
+      for(var i = 0; i < players.length; i++){
+        if (players[i].y > y && players[i].y <= y + projectileLength) {
+          players[i].health -= projectileStrength;
+        }
+      }
+      break;
   }
+  game.markModified('players');
+  game.save(function(err, game){
+    emitPlayers(io.sockets, game);
+  });
 }
 
 function emitPlayers(sockets, game){
@@ -191,7 +219,7 @@ function emitPlayers(sockets, game){
     for(var i = 0; i < players.length; i++){
       if(sockets[players[i].socketId]){
         console.log('emitting!!!!!');
-        sockets[players[i].socketId].emit('reset', {game:game});
+        sockets[players[i].socketId].emit('updateBoard', {game:game});
       }
     }
   });
