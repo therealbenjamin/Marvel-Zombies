@@ -1,8 +1,9 @@
 /* global document, window, io, getValue */
 
 $(document).ready(initialize);
-
+var name;
 var socket;
+var username;
 var player;
 var players = [];
 function initialize(){
@@ -104,9 +105,10 @@ function clickStartGame() {
 function clickStart() {
   var hero = $('#selectHero').val();
   var name = $('#selectStage').val();
-  var player = getValue('#player input');
+  var playername = getValue('#player input');
+  username = playername;
   $('#form').addClass('hidden');
-  socket.emit('clickStart', {character:hero, name:name, username:player});
+  socket.emit('clickStart', {character:hero, name:name, username:playername});
   htmlSelectStage(name);
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
@@ -114,26 +116,39 @@ function clickStart() {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 function keyupMove(e){
+  var x = player.x;
+  var y = player.y;
   console.log(e.keyCode);
   var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.which;});
 
   if(isArrow){
 
     switch(e.which){
-      case 38:
-        p.y--;
-        break;
-      case 40:
-        p.y++;
-        break;
-      case 37:
-        p.x--;
-        break;
-      case 39:
-        p.x++;
-        break;
+    case 37:
+      //left
+      if (x>0) {
+        x--;
+      }
+      break;
+    case 38:
+      //up
+      if (y>0) {
+        y--;
+      }
+      break;
+    case 39:
+      if (x<10) {
+        x++;
+      }
+      break;
+    case 40:
+      if (y<10) {
+        y++;
+      }
+      //down
+      break;
     }
-    socket.emit('playermoved', {game:game, player:player, x:p.x, y:p.y});
+    socket.emit('playermoved', {x:player.x, y:player.y, name:name});
   }
 
   var isProjectile = _.any([65, 83, 68, 87], function(i){return i === e.keyCode;});
@@ -156,7 +171,7 @@ function keyupMove(e){
       case 87:
         data.direction = "up";
     }
-  socket.emit('playerprojectile', data);
+    socket.emit('playerprojectile', data);
   }
 }
 
@@ -170,9 +185,10 @@ function keyupMove(e){
 
 
 function socketPlayerJoined(data){
+  name = data.game.name;
   $('table#game').removeClass('hidden');
   players = data.game.players;
-
+  findUser(players);
   var x, y, $td, $player, $outerHealth;
   for(var i = 0; i < data.game.players.length; i++) {
     if(data.game.players[i].health > 0) {
@@ -183,7 +199,7 @@ function socketPlayerJoined(data){
       $player.text(data.game.players[i].name);
 
       switch(players[i].character){
-        case 'Cap':
+        case 'Captain':
           $player.append($('<img>').attr('src','../images/capf.png'));
           break;
         case 'Thor':
@@ -213,5 +229,13 @@ function socketPlayerJoined(data){
     //   $outerHealth.append($('<div>').addClass('innerHealth').css('width', data.players[i].health + '%'));
     //   $player.append($outerHealth).appendTo($td);
     // }
+  }
+}
+
+function findUser(players){
+  for(var i = 0; i < players.length; i++){
+    if (players[i].username === username) {
+      player = players[i];
+    }
   }
 }
