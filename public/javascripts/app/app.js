@@ -19,7 +19,8 @@ function initializeSocketIO(){
 
   socket = io.connect(url);
   socket.on('connected', socketConnected);
-  socket.on('updateBoard', socketConnected);
+  socket.on('updateBoard', socketPlayerJoined);
+
   // socket.on('playeradded', socketPlayerAdded);
 }
 
@@ -90,6 +91,7 @@ function clickStart() {
   var hero = $('#selectHero').val();
   var name = $('#selectStage').val();
   var player = getValue('#player input');
+  $('#form').addClass('hidden');
   socket.emit('clickStart', {character:hero, name:name, username:player});
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
@@ -128,16 +130,22 @@ function keyupMove(e){
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-function playerJoined(data){
-  players = data.players;
+
+
+
+
+function socketPlayerJoined(data){
+  $('table#game').removeClass('hidden');
+  players = data.game.players;
+
   var x, y, $td, $player, $outerHealth;
-  for(var i = 0; i < data.players.length; i++) {
-    if(data.players[i].health > 0) {
-      x = data.players[i].x;
-      y = data.players[i].y;
+  for(var i = 0; i < data.game.players.length; i++) {
+    if(data.game.players[i].health > 0) {
+      x = data.game.players[i].x;
+      y = data.game.players[i].y;
       $td = $('td[data-x=' + x + '][data-y=' + y + ']');
       $player = $('<div>').addClass('player');
-      $player.text(data.players[i].name);
+      $player.text(data.game.players[i].name);
 
       switch(players[i].character){
         case 'Cap':
@@ -155,7 +163,7 @@ function playerJoined(data){
       }
 
       $outerHealth = $('<div>').addClass('outerHealth');
-      $outerHealth.append($('<div>').addClass('innerHealth').css('width', data.players[i].health + '%'));
+      $outerHealth.append($('<div>').addClass('innerHealth').css('width', data.game.players[i].health + '%'));
       $player.append($outerHealth).appendTo($td);
     }
     // else{
