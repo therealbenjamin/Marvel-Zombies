@@ -22,11 +22,15 @@
 
 body{
   background-color: @base;
-  background: url('../images/background.png') no-repeat center center fixed; 
+  background: url('../images/background.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+td{
+  background-color: transparent;
 }
 
 #startLogo{
@@ -51,7 +55,7 @@ body{
 	top:525px;
 	left: 400px;
 	border: 3px solid black;
-	
+
 
 	&:hover{
 		background-color: lighten(@marvelRed, 10%);
@@ -73,7 +77,7 @@ table{
 .cell{
   width: 50px;
   height: 50px;
-  border: 1px dashed #252525;
+  // border: 1px dashed #252525;
   padding: 0px;
   vertical-align: top;
 }
@@ -108,7 +112,7 @@ table{
 	font-family: @monoFont;
 	text-shadow: 0px 0px 5px #222;
 	border: 3px solid black;
-	
+
 
 	&:hover{
 		background-color: lighten(@marvelRed, 10%);
@@ -138,8 +142,8 @@ td.odd {
   text-align: center;
   font-size: 10px;
   img {
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: auto;
   }
   .outerHealth{
     width: 80%;
@@ -150,6 +154,37 @@ td.odd {
     .innerHealth {
       background-color: #f00;
       height: 100%;
+    }
+  }
+}
+
+.desert{
+  background: url(../images/desert.png);
+  background-size: 100%;
+}
+
+.jungle{
+  background: url(../images/jungle.jpg);
+  background-size: 100%;
+}
+
+.tundra{
+  background: url(../images/tundra.png);
+  background-size: 100%;
+}
+
+.city{
+  background: url(../images/city.png);
+  background-size: 100%;
+}
+
+
+#game {
+  background-color: transparent;
+  tr {
+    background-color: transparent;
+    td {
+      background-color: transparent;
     }
   }
 }

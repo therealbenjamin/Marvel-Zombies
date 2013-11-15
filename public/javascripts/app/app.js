@@ -51,6 +51,37 @@ function socketConnected(data){
 // // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
+
+function htmlSelectStage(name){
+
+  if(name === 'Desert'){
+    $('table#game').addClass('desert');
+  } else if(name === 'Jungle') {
+    $('table#game').addClass('jungle');
+  } else if(name === 'Tundra'){
+    $('table#game').addClass('tundra');
+  } else {
+    $('table#game').addClass('city');
+  }
+
+
+
+  // switch(){
+  //   case 'Desert':
+  //     $('table#game').addClass('desert');
+  //     break;
+  //   case 'Jungle':
+  //     $('table#game').addClass('jungle');
+  //     break;
+  //   case 'Tundra':
+  //     $('table#game').addClass('tundra');
+  //     break;
+  //   case 'City':
+  //     $('table#game').addClass('city');
+  //     break;
+  //   }
+  }
+
 // function htmlDrawBoard(){
 //   htmlResetBoard();
 
@@ -93,10 +124,12 @@ function clickStart() {
   var player = getValue('#player input');
   $('#form').addClass('hidden');
   socket.emit('clickStart', {character:hero, name:name, username:player});
+  htmlSelectStage(name);
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
 function keyupMove(e){
   console.log(e.keyCode);
   var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.which;});
