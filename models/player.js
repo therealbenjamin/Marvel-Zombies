@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var Player = mongoose.Schema(){
+var Player = mongoose.Schema({
   username            : String,
   character           : String,
   players             : [{type: mongoose.Schema.Types.ObjectId, ref: 'Player'}],
