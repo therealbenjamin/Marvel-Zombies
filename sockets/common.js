@@ -1,4 +1,5 @@
 var io;
+var __ = require('lodash');
 
 exports.connection = function(socket){
   io = this;
@@ -11,12 +12,14 @@ function socketDisconnect(){
 }
 
 function socketCreatePlayer(data){
+  var socket = this;
   createplayer(data);
 }
 
 
 function createHulk(username){
   var player = {}
+  player.socketId = socket;
   player.character = 'Hulk';
   player.username = username;
   player.health = 250;
@@ -31,6 +34,7 @@ function createHulk(username){
 
 function createIronman(username){
   var player = {}
+  player.socketId = socket;
   player.character = 'IronMan';
   player.username = username;
   player.health = 120;
@@ -45,6 +49,7 @@ function createIronman(username){
 
 function createCap(username){
   var player = {}
+  player.socketId = socket;
   player.character = 'Captain';
   player.username = username;
   player.health = 175;
@@ -59,6 +64,7 @@ function createCap(username){
 
 function createThor(username){
   var player = {}
+  player.socketId = socket;
   player.character = 'Thor';
   player.username = username;
   player.health = 200;
@@ -103,7 +109,7 @@ function createPlayer (data){
       });
       break;
   }
-  // INSERT INTO GAME HERE
+  findOrCreateGame(data.name, player);
 }
 
 function findOrCreateGame(name, player){
