@@ -3,6 +3,8 @@ var mongoose = require('mongoose');
 
 // model definitions
 require('require-dir')('./models');
+var Player = mongoose.model('Player');
+var Game = mongoose.model('Game');
 
 // route definitions
 var home = require('./routes/home');

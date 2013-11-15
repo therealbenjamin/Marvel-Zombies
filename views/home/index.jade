@@ -8,7 +8,7 @@ block content
       img#startLogo(src="../images/logo.png")
   .row
     .small-12.columns
-      button#startGame.button.small-12.radius.expand Start Game 
+      button#startGame.button.small-12.radius.expand Start Game
 
 
   .row#form.hidden
@@ -25,7 +25,7 @@ block content
           option(value='Tundra') Tundra
           option(value='City')  City
       .small-6.columns
-        mixin field#player(3, 'text', 'player', null ,null, null, true)
+        mixin field(3, 'text', 'player', null ,null, null, true, 'player')
       .small-2.columns
         button#start.small.expand Start
 

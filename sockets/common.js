@@ -16,6 +16,7 @@ function socketDisconnect(){
 }
 
 function socketCreatePlayer(data){
+  console.log(data);
   // data dependiences
   // data.name === game.name
   // data. username === username
@@ -105,6 +106,7 @@ function createPlayer (data, socket){
 
     case ('Cap'):
       player = createCap(data.username, socket);
+      console.log(player);
       Player.save(player, function(err, savedPlayer){
         player = savedPlayer;
       });
