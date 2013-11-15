@@ -9,7 +9,9 @@ exports.connection = function(socket){
   socket.emit('connected', {status: 'connected'});
   socket.on('disconnect', socketDisconnect);
   socket.on('clickStart', socketCreatePlayer);
+  socket.on('playerMoved', socketPlayerMoved);
   socket.on('playerprojectile', socketPlayerProjectile);
+
 };
 
 function socketDisconnect(){
@@ -144,18 +146,10 @@ function findOrCreateGame(name, player){
   });
 }
 
-// function socketPlayerProjectile(data){
-//   // data dependicies
-//   // data.name = game name
-//   // data.x === shooter's x
-//   // data.y === shooter's y
-//   // data.direction === projectile direction
-//   // data.projectileStrength === player's projectile strength
-//   // data.projectileLength === player's projectile length
-//   Game.find({name:data.name}.populate('players').exec(function(err, game){
-//     checkForHits(game, game.players, data.direction, data.projectileLength, data.projectileStrength);
-//   })
-// }
+function socketPlayerMoved(data){
+  var game = data.game
+  Game.findOne({game:game})
+}
 
 function socketPlayerProjectile(data){
   // data dependicies
@@ -224,3 +218,4 @@ function emitPlayers(sockets, game){
     }
   });
 }
+

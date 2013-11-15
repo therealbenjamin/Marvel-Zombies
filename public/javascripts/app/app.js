@@ -98,31 +98,26 @@ function clickStart() {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
+  var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.which;});
 
-function keyupMove(e){
-  console.log(e.keyCode);
-  // var isProjectile = _.any([65, 83, 68, 87], function(i){return i === e.which;});
-  // var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.which;});
+  if(isArrow){
 
-  // if(isArrow){
-
-  //   switch(e.which){
-  //     case 38:
-  //       p.y--;
-  //       break;
-  //     case 40:
-  //       p.y++;
-  //       break;
-  //     case 37:
-  //       p.x--;
-  //       break;
-  //     case 39:
-  //       p.x++;
-  //       break;
-  //   }
-
-  //   socket.emit('playermoved', {game:game, player:player, x:p.x, y:p.y});
-  // }
+    switch(e.which){
+      case 38:
+        p.y--;
+        break;
+      case 40:
+        p.y++;
+        break;
+      case 37:
+        p.x--;
+        break;
+      case 39:
+        p.x++;
+        break;
+    }
+    socket.emit('playermoved', {game:game, player:player, x:p.x, y:p.y});
+  }
 }
 
 
@@ -149,16 +144,16 @@ function socketPlayerJoined(data){
 
       switch(players[i].character){
         case 'Cap':
-          $player.append($('<img>').attr('src','../images/cap.png'));
+          $player.append($('<img>').attr('src','../images/capf.png'));
           break;
         case 'Thor':
-          $player.append($('<img>').attr('src','../images/thor.png'));
+          $player.append($('<img>').attr('src','../images/thorf.png'));
           break;
         case 'Ironman':
-          $player.append($('<img>').attr('src','../images/ironman.png'));
+          $player.append($('<img>').attr('src','../images/ironmanf.png'));
           break;
         case 'Hulk':
-          $player.append($('<img>').attr('src','../images/hulk.png'));
+          $player.append($('<img>').attr('src','../images/hulkf.png'));
           break;
       }
 
