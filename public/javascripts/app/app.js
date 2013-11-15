@@ -90,9 +90,9 @@ function clickStartGame() {
 }
 
 function clickStart() {
-  var hero = getValue('#selectHero');
-  var stage = getValue('#selectStage');
+  var hero = $('#selectHero').val();
+  var name = $('#selectStage').val();
   var player = getValue('#player');
-  socket.emit('clickStart', {hero:hero, stage:stage, player:player});
+  socket.emit('clickStart', {hero:hero, name:name, player:player});
 
 }
