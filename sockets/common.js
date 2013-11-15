@@ -5,7 +5,7 @@ exports.connection = function(socket){
   io = this;
   socket.emit('connected', {status: 'connected'});
   socket.on('disconnect', socketDisconnect);
-  socket.on('createplayer', socketCreatePlayer);
+  socket.on('clickStart', socketCreatePlayer);
   socket.on('playerprojectile', socketPlayerProjectile);
 };
 
