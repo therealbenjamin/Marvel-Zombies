@@ -8,6 +8,7 @@ function initialize(){
   $(document).foundation();
   initializeSocketIO();
   $('#startGame').on('click', clickStartGame);
+  $('#start').on('click', clickStart);
 }
 
 function initializeSocketIO(){
@@ -16,7 +17,7 @@ function initializeSocketIO(){
 
   socket = io.connect(url);
   socket.on('connected', socketConnected);
-  socket.on('playeradded', socketPlayerAdded);
+  // socket.on('playeradded', socketPlayerAdded);
 }
 
 
@@ -30,52 +31,68 @@ function socketConnected(data){
 }
 
 
-function socketPlayerJoined(data){
-  players = data.players;
-  htmlDrawBoard();
+// function socketPlayerJoined(data){
+//   players = data.players;
+//   htmlDrawBoard();
+// }
+
+// // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+// // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+// // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
+// function clickStartGame(){
+//   game = getValue('#game');
+//   player = getValue('#character');
+//   $('#startGame').fadeOut('slow').addClass('hidden');
+//   $('#startLogo').fadeOut('slow').addClass('hidden');
+//   // $('table#game').removeClass('hidden');
+//   socket.emit('startgame', {game:game, player:player});
+// }
+
+// // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+// // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+// // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
+// function htmlDrawBoard(){
+//   htmlResetBoard();
+
+//   for(var i = 0; i < players.length; i++){
+//     if(players[i].health > 0){
+//       htmlAddPlayer(players[i]);
+//     }
+//   }
+
+// function htmlResetBoard(){
+//   $('.cell .health').css('background-color', 'white');
+//   $('.cell .player').css('background-color', 'white');
+//   $('.cell .player').text('');
+// }
+
+// function htmlAddPlayer(){
+//   var $cell = $('.cell[data-x="' + player.x + '"][data-y="' + player.y + '"]');
+//   var playerClass = ($cell.find('.p1 .player').text() === '') ? '.p1' : '.p2';
+
+//   $cell.find(playerClass + ' .health').css('background-color', 'black');
+//   $cell.find(playerClass + ' .health').css('width', player.health + '%');
+//   $cell.find(playerClass + ' .player').text(player.name);
+// }
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
+
+function clickStartGame() {
+  $('#startLogo').addClass('hidden');
+  $('#startGame').addClass('hidden');
+  $('#form').removeClass('hidden');
+
 }
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+function clickStart() {
+  var hero = getValue('#selectHero');
+  var stage = getValue('#selectStage');
+  var player = getValue('#player');
+  socket.emit('clickStart', {hero:hero, stage:stage, player:player});
 
-function clickStartGame(){
-  game = getValue('#game');
-  player = getValue('#character');
-  $('#startGame').fadeOut('slow').addClass('hidden');
-  $('#startLogo').fadeOut('slow').addClass('hidden');
-  $('table#game').removeClass('hidden');
-  socket.emit('startgame', {game:game, player:player});
 }
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-
-function htmlDrawBoard(){
-  htmlResetBoard();
-
-  for(var i = 0; i < players.length; i++){
-    if(players[i].health > 0){
-      htmlAddPlayer(players[i]);
-    }
-  }
-
-function htmlResetBoard(){
-  $('.cell .health').css('background-color', 'white');
-  $('.cell .player').css('background-color', 'white');
-  $('.cell .player').text('');
-}
-
-function htmlAddPlayer(){
-  var $cell = $('.cell[data-x="' + player.x + '"][data-y="' + player.y + '"]');
-  var playerClass = ($cell.find('.p1 .player').text() === '') ? '.p1' : '.p2';
-
-  $cell.find(playerClass + ' .health').css('background-color', 'black');
-  $cell.find(playerClass + ' .health').css('width', player.health + '%');
-  $cell.find(playerClass + ' .player').text(player.name);
-}
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
