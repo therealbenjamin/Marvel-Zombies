@@ -18,7 +18,7 @@ function initializeSocketIO(){
 
   socket = io.connect(url);
   socket.on('connected', socketConnected);
-  socket.on('reset', socketConnected);
+  socket.on('updateBoard', socketConnected);
   // socket.on('playeradded', socketPlayerAdded);
 }
 
