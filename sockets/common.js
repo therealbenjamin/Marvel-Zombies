@@ -6,12 +6,17 @@ exports.connection = function(socket){
   socket.emit('connected', {status: 'connected'});
   socket.on('disconnect', socketDisconnect);
   socket.on('createplayer', socketCreatePlayer);
+  socket.on('playerprojectile', socketPlayerProjectile);
 };
 
 function socketDisconnect(){
 }
 
 function socketCreatePlayer(data){
+  // data dependiences
+  // data.name === game.name
+  // data. username === username
+  // data.character === 'Hulk' || 'Thor' || 'Ironman' || 'Cap'
   var socket = this;
   createplayer(data);
 }
@@ -129,3 +134,28 @@ function findOrCreateGame(name, player){
       }
   });
 };
+
+function socketPlayerProjectile(data){
+  // data dependicies
+  // data.name = game name
+  // data.x === shooter's x
+  // data.y === shooter's y
+  // data.direction === projectile direction
+  // data.projectileStrength === player's projectile strength
+  // data.projectileLength === player's projectile length
+  Game.find({name:data.name}.populate('players').exec(function(err, game){
+    checkForHits(game, game.players, data.direction, data.projectileLength, data.projectileStrength);
+  });
+}
+
+function checkForHits(game, players, direction, projectileLength, projectileStrength){
+  switch(direction){
+
+    case ('left'):
+      for(var i = 0; i < players.length; i++){
+        if (players[i].x < data.x && players[i].x >= data.x - projectileLength) {
+          players[i].health -= projectileStrength;
+        }
+      }
+  }
+}
