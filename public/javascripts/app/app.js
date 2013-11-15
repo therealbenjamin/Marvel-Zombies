@@ -164,7 +164,3 @@ function clickStart() {
 //     }
 //   }
 // }
-
-function test(data){
-  console.log(data);
-}
