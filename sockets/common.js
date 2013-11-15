@@ -1,9 +1,17 @@
+var io;
+
 exports.connection = function(socket){
+  io = this;
   socket.emit('connected', {status: 'connected'});
   socket.on('disconnect', socketDisconnect);
+  socket.on('createplayer', socketCreatePlayer);
 };
 
 function socketDisconnect(){
+}
+
+function socketCreatePlayer(data){
+  createplayer(data);
 }
 
 
@@ -103,6 +111,15 @@ function findOrCreateGame(name, player){
     if (game) {
       game.players.push(player);
       game.markModified('players');
-    }
+      game.save(function(err, game){
+      });
+    } else {
+        new Game({name:name}).save(function(err, game){
+          game.players.push(player);
+          game.markModified('players');
+          game.save(function(err, game){
+          });
+        });
+      }
   });
 };
