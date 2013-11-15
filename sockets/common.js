@@ -125,6 +125,7 @@ function findOrCreateGame(name, player){
   console.log(player);
   Game.findOne({name:name}).populate('players').exec(function(err, game){
     if (game) {
+      console.log('found ya');
       game.players.push(player);
       game.markModified('players');
       game.save(function(err, game){
@@ -184,7 +185,9 @@ function checkForHits(game, players, direction, projectileLength, projectileStre
 
 function emitPlayers(sockets, game){
   Game.findById(game.id).populate('players').exec(function(err, game){
+    console.log('found ya and emitting');
     var players = game.players;
+    console.log(players);
     for(var i = 0; i < players.length; i++){
       if(sockets[players[i].socketId]){
         console.log('emitting!!!!!');

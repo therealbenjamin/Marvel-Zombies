@@ -17,6 +17,7 @@ function initializeSocketIO(){
 
   socket = io.connect(url);
   socket.on('connected', socketConnected);
+  socket.on('reset', socketConnected);
   // socket.on('playeradded', socketPlayerAdded);
 }
 
@@ -163,3 +164,7 @@ function clickStart() {
 //     }
 //   }
 // }
+
+function test(data){
+  console.log(data);
+}

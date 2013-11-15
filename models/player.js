@@ -9,6 +9,7 @@ var Player = mongoose.Schema({
   projectileLength    : Number,
   projectileStrength  : Number,
   meleeStrength       : Number,
+  socketId            : String,
   isZombie            : Boolean
 });
 
