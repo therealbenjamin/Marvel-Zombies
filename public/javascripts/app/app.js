@@ -98,6 +98,7 @@ function clickStart() {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 function keyupMove(e){
+  console.log(e.keyCode);
   var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.which;});
 
   if(isArrow){
@@ -117,6 +118,29 @@ function keyupMove(e){
         break;
     }
     socket.emit('playermoved', {game:game, player:player, x:p.x, y:p.y});
+  }
+
+  var isProjectile = _.any([65, 83, 68, 87], function(i){return i === e.keyCode;});
+  if (isProjectile) {
+    var data = {};
+    data.x = player.x;
+    data.y = player.y
+    data.projectileStrength = player.projectileStrength;
+    data.projectileLength = player.projectileLength;
+    switch(e.keyCode) {
+      case 65:
+        data.direction = "left";
+        break;
+      case 83:
+        data.direction = "down";
+        break;
+      case 68:
+        data.direction = "right";
+        break;
+      case 87:
+        data.direction = "up";
+    }
+  socket.emit('playerprojectile', data);
   }
 }
 
