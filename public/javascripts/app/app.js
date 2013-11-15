@@ -3,6 +3,7 @@
 $(document).ready(initialize);
 
 var socket;
+var username;
 var player;
 var players = [];
 function initialize(){
@@ -90,35 +91,36 @@ function clickStartGame() {
 function clickStart() {
   var hero = $('#selectHero').val();
   var name = $('#selectStage').val();
-  var player = getValue('#player input');
+  var playername = getValue('#player input');
+  username = playername;
   $('#form').addClass('hidden');
-  socket.emit('clickStart', {character:hero, name:name, username:player});
+  socket.emit('clickStart', {character:hero, name:name, username:playername});
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 function keyupMove(e){
   console.log(e.keyCode);
-  var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.which;});
+  // var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.which;});
 
-  if(isArrow){
+  // if(isArrow){
 
-    switch(e.which){
-      case 38:
-        p.y--;
-        break;
-      case 40:
-        p.y++;
-        break;
-      case 37:
-        p.x--;
-        break;
-      case 39:
-        p.x++;
-        break;
-    }
-    socket.emit('playermoved', {game:game, player:player, x:p.x, y:p.y});
-  }
+  //   switch(e.which){
+  //     case 38:
+  //       p.y--;
+  //       break;
+  //     case 40:
+  //       p.y++;
+  //       break;
+  //     case 37:
+  //       p.x--;
+  //       break;
+  //     case 39:
+  //       p.x++;
+  //       break;
+  //   }
+  //   socket.emit('playermoved', {game:game, player:player, x:p.x, y:p.y});
+  // }
 
   var isProjectile = _.any([65, 83, 68, 87], function(i){return i === e.keyCode;});
   if (isProjectile) {
@@ -156,7 +158,7 @@ function keyupMove(e){
 function socketPlayerJoined(data){
   $('table#game').removeClass('hidden');
   players = data.game.players;
-
+  findUser(players);
   var x, y, $td, $player, $outerHealth;
   for(var i = 0; i < data.game.players.length; i++) {
     if(data.game.players[i].health > 0) {
@@ -197,5 +199,13 @@ function socketPlayerJoined(data){
     //   $outerHealth.append($('<div>').addClass('innerHealth').css('width', data.players[i].health + '%'));
     //   $player.append($outerHealth).appendTo($td);
     // }
+  }
+}
+
+function findUser(players){
+  for(var i = 0; i < players.length; i++){
+    if (players[i].username === username) {
+      player = players[i];
+    }
   }
 }
