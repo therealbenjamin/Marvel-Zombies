@@ -101,26 +101,26 @@ function clickStart() {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 function keyupMove(e){
   console.log(e.keyCode);
-  // var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.which;});
+  var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.which;});
 
-  // if(isArrow){
+  if(isArrow){
 
-  //   switch(e.which){
-  //     case 38:
-  //       p.y--;
-  //       break;
-  //     case 40:
-  //       p.y++;
-  //       break;
-  //     case 37:
-  //       p.x--;
-  //       break;
-  //     case 39:
-  //       p.x++;
-  //       break;
-  //   }
-  //   socket.emit('playermoved', {game:game, player:player, x:p.x, y:p.y});
-  // }
+    switch(e.which){
+      case 38:
+        player.y--;
+        break;
+      case 40:
+        player.y++;
+        break;
+      case 37:
+        player.x--;
+        break;
+      case 39:
+        player.x++;
+        break;
+    }
+    socket.emit('playermoved', {game:game, player:player, x:player.x, y:player.y});
+  }
 
   var isProjectile = _.any([65, 83, 68, 87], function(i){return i === e.keyCode;});
   if (isProjectile) {
