@@ -30,7 +30,10 @@ function socketConnected(data){
   console.log(data);
 }
 
-
+function socketPlayerAdded(data){
+  players = data.players;
+  htmlDrawBoard();
+}
 // function socketPlayerJoined(data){
 //   players = data.players;
 //   htmlDrawBoard();
@@ -95,4 +98,35 @@ function clickStart() {
   var player = getValue('#player');
   socket.emit('clickStart', {hero:hero, name:name, player:player});
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
+
+function keyupMove(e){
+  var isArrow = _.any([37, 38, 39, 40], function(i){return i === e.which;});
+
+  if(isArrow){
+
+    switch(e.which){
+      case 38:
+        p.y--;
+        break;
+      case 40:
+        p.y++;
+        break;
+      case 37:
+        p.x--;
+        break;
+      case 39:
+        p.x++;
+        break;
+    }
+    socket.emit('playermoved', {game:game, player:player, x:p.x, y:p.y});
+  }
 }
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
