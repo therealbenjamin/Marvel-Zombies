@@ -143,6 +143,19 @@ function findOrCreateGame(name, player){
   });
 }
 
+// function socketPlayerProjectile(data){
+//   // data dependicies
+//   // data.name = game name
+//   // data.x === shooter's x
+//   // data.y === shooter's y
+//   // data.direction === projectile direction
+//   // data.projectileStrength === player's projectile strength
+//   // data.projectileLength === player's projectile length
+//   Game.find({name:data.name}.populate('players').exec(function(err, game){
+//     checkForHits(game, game.players, data.direction, data.projectileLength, data.projectileStrength);
+//   })
+// }
+
 function socketPlayerProjectile(data){
   // data dependicies
   // data.name = game name
@@ -155,6 +168,7 @@ function socketPlayerProjectile(data){
     checkForHits(game, game.players, data.direction, data.projectileLength, data.projectileStrength, data.x, data.y);
   });
 }
+
 
 function checkForHits(game, players, direction, projectileLength, projectileStrength, x, y){
   switch(direction){
