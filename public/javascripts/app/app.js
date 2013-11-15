@@ -185,6 +185,7 @@ function keyupMove(e){
 
 
 function socketPlayerJoined(data){
+  $('td').empty();
   name = data.game.name;
   $('table#game').removeClass('hidden');
   players = data.game.players;
