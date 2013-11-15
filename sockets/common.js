@@ -92,48 +92,52 @@ function createPlayer (data, socket){
   {
     case ('Hulk'):
       player = createHulk(data.username, socket);
-      Player.save(player, function(err, savedPlayer){
-        player = savedPlayer;
-      });
+      // Player.save(player, function(err, savedPlayer){
+      //   player = savedPlayer;
+      // });
       break;
 
     case ('Ironman'):
       player = createIronman(data.username, socket);
-      Player.save(player, function(err, savedPlayer){
-        player = savedPlayer;
-      });
+      // Player.save(player, function(err, savedPlayer){
+      //   player = savedPlayer;
+      // });
       break;
 
     case ('Cap'):
       player = createCap(data.username, socket);
-      console.log(player);
-      Player.save(player, function(err, savedPlayer){
-        player = savedPlayer;
-      });
       break;
 
     case ('Thor'):
       player = createThor(data.username, socket);
-      Player.save(player, function(err, savedPlayer){
-        player = savedPlayer;
-      });
+      // Player.save(player, function(err, savedPlayer){
+      //   player = savedPlayer;
+      // });
       break;
   }
-  findOrCreateGame(data.name, player);
+  new Player(player).save(function(err, savedPlayer){
+        findOrCreateGame(data.name, savedPlayer);
+      });
 }
 
 function findOrCreateGame(name, player){
+  console.log(name);
+  console.log(player);
   Game.findOne({name:name}).populate('players').exec(function(err, game){
     if (game) {
+      console.log('found ya');
       game.players.push(player);
       game.markModified('players');
       game.save(function(err, game){
+        emitPlayers(io.sockets, game);
       });
     } else {
+      console.log('came to create new game');
       new Game({name:name}).save(function(err, game){
         game.players.push(player);
         game.markModified('players');
         game.save(function(err, game){
+          emitPlayers(io.sockets, game);
         });
       });
     }
@@ -179,3 +183,16 @@ function checkForHits(game, players, direction, projectileLength, projectileStre
   }
 }
 
+function emitPlayers(sockets, game){
+  Game.findById(game.id).populate('players').exec(function(err, game){
+    console.log('found ya and emitting');
+    var players = game.players;
+    console.log(players);
+    for(var i = 0; i < players.length; i++){
+      if(sockets[players[i].socketId]){
+        console.log('emitting!!!!!');
+        sockets[players[i].socketId].emit('reset', {game:game});
+      }
+    }
+  });
+}

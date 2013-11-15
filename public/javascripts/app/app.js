@@ -17,6 +17,7 @@ function initializeSocketIO(){
 
   socket = io.connect(url);
   socket.on('connected', socketConnected);
+  socket.on('reset', socketConnected);
   // socket.on('playeradded', socketPlayerAdded);
 }
 
@@ -124,6 +125,7 @@ function clickStart() {
 
 
 
+
 function playerJoined(data){
   players = data.players;
   var x, y, $td, $player, $outerHealth;
@@ -168,3 +170,9 @@ function playerJoined(data){
     // }
   }
 }
+
+
+function test(data){
+  console.log(data);
+}
+
